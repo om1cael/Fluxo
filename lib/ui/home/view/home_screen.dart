@@ -65,13 +65,13 @@ class HomeScreen extends StatelessWidget {
                         child: CircularProgressIndicator()
                       );
                     }
-            
-                    if(snapshot.hasError || !snapshot.hasData) {
+                            
+                    if((snapshot.hasError || !snapshot.hasData) || snapshot.data!.isEmpty) {
                       return Center(
                         child: Text('Could not load the articles.'),
                       );
                     }
-            
+                            
                     return ListView.separated(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
