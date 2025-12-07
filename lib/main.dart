@@ -16,7 +16,13 @@ class Fluxo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(viewModel: HomeScreenViewModel(articleRepository: ArticleRepository(apiService: ApiService())),),
+      home: HomeScreen(
+        viewModel: HomeScreenViewModel(
+          articleRepository: ArticleRepository(
+            apiService: ApiService()
+          )
+        ),
+      ),
     );
   }
 }
