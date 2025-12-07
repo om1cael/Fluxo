@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluxo/domain/models/article.dart';
 import 'package:fluxo/domain/models/enum/news_categories.dart';
+import 'package:fluxo/ui/home/view/widgets/article_card.dart';
+import 'package:fluxo/ui/home/view/widgets/feedback_widget.dart';
 import 'package:fluxo/ui/home/view_model/home_screen_view_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -88,22 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                           
                   if((snapshot.hasError || !snapshot.hasData)) {
-                    return Column(
-                      mainAxisAlignment: .center,
-                      children: [
-                        Icon(Icons.error, size: 64,),
-                        Text('Could not load the articles!'),
-                      ],
+                    return FeedbackWidget(
+                      icon: Icon(Icons.error, size: 64,),
+                      text: 'Could not load the articles!',
                     );
                   }
                         
                   if(snapshot.data!.isEmpty) {
-                    return Column(
-                      mainAxisAlignment: .center,
-                      children: [
-                        Icon(Icons.air, size: 64,),
-                        Text('No articles were found!'),
-                      ],
+                    return FeedbackWidget(
+                      icon: Icon(Icons.air, size: 64,),
+                      text: 'No articles were found!',
                     );
                   }
                           
@@ -114,60 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, item) {
                       final article = snapshot.data![item];
                   
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(16),
-                        splashColor: Colors.lightGreen,
-                        onTap: () async => widget._viewModel.launchUrl(article.url),
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: .stretch,
-                              children: [
-                                Text(
-                                  article.title,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(height: 4,),
-                                Text(
-                                  article.publishedAt.toLocal().toString(),
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(height: 8,),
-                                Text(
-                                  article.description,
-                                  maxLines: 6,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(height: 8,),
-                                Row(
-                                  children: [
-                                    Icon(Icons.person),
-                                    SizedBox(width: 4,),
-                                    Flexible(
-                                      child: Text(
-                                        article.author, 
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          letterSpacing: .1,
-                                          fontSize: 10
-                                        ),
-                                      )
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                      return ArticleCard(
+                        article: article,
+                        tapFunction: () async => widget._viewModel.launchUrl(article.url),
                       );
                     },
                     separatorBuilder: (_, _) => SizedBox(height: 8,), 
