@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxo/domain/models/article.dart';
 import 'package:fluxo/domain/models/enum/news_categories.dart';
 import 'package:fluxo/ui/home/view_model/home_screen_view_model.dart';
 
@@ -16,11 +17,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   NewsCategories categoryFilter = NewsCategories.general;
+  late Future<List<Article>> _fetchArticlesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchArticlesFuture = widget._viewModel.fetchArticles();
+  }
 
   @override
   Widget build(BuildContext context) {
-    widget._viewModel.category = categoryFilter;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -54,6 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 setState(() {
                                   categoryFilter = category;
                                   widget._viewModel.category = category;
+                                  
+                                  _fetchArticlesFuture = widget._viewModel.fetchArticles();
                                 });
                               },
                             );
@@ -66,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 FutureBuilder(
-                  future: widget._viewModel.fetchArticles(), 
+                  future: _fetchArticlesFuture, 
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
