@@ -24,7 +24,7 @@ class ApiService {
 
   Future<List<dynamic>> getArticlesWithinCategory(String category) async {
     final response = await http.get(
-      Uri.parse('$baseApiUrl?category=$category'),
+      Uri.parse('$baseApiUrl&category=$category'),
       headers: {'Authorization': apiKey!},
     );
 
