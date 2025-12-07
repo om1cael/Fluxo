@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:fluxo/domain/models/enum/news_categories.dart';
 import 'package:fluxo/ui/home/view_model/home_screen_view_model.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
     required HomeScreenViewModel viewModel,
   }) : _viewModel = viewModel;
 
   final HomeScreenViewModel _viewModel;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Set<NewsCategories> categoryFilter = {};
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,20 @@ class HomeScreen extends StatelessWidget {
 
                             return FilterChip(
                               label: Text(category.frontEndName), 
-                              onSelected: (value) {},
+                              selected: categoryFilter.contains(category),
+                              onSelected: (selected) {
+                                setState(() {
+                                  if(selected) {
+                                    categoryFilter.add(category);
+                                  } else {
+                                    categoryFilter.remove(category);
+                                  }
+
+                                  if(categoryFilter.isEmpty) {
+                                    categoryFilter.add(NewsCategories.general);
+                                  }
+                                });
+                              },
                             );
                           },
                           separatorBuilder: (_, _) => SizedBox(width: 4,),
@@ -51,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 FutureBuilder(
-                  future: _viewModel.getAllArticles(), 
+                  future: widget._viewModel.getAllArticles(), 
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
