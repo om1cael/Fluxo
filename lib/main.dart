@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxo/ui/home/view/home_screen.dart';
 
 void main() {
   runApp(const Fluxo());
@@ -9,6 +10,8 @@ class Fluxo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp(
+      home: HomeScreen(),
+    );
   }
 }
