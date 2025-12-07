@@ -18,9 +18,9 @@ class Article {
     return Article(
       title: json['title'], 
       description: json['description'], 
-      author: json['author'], 
-      url: json['url'], 
-      publishedAt: json['publishedAt']
+      author: json['author'] ?? 'Absent', 
+      url: Uri.parse(json['url']), 
+      publishedAt: DateTime.parse(json['publishedAt']),
     );
   }
 }
