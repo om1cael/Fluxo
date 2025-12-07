@@ -117,9 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return InkWell(
                         borderRadius: BorderRadius.circular(16),
                         splashColor: Colors.lightGreen,
-                        onTap: () async {
-                          await launchUrl(article.url);
-                        },
+                        onTap: () async => widget._viewModel.launchUrl(article.url),
                         child: Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),

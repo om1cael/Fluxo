@@ -21,4 +21,8 @@ class HomeScreenViewModel {
 
     return await _articleRepository.getArticlesWithinCategory(_category.name);
   }
+
+  Future<void> launchUrl(Uri url) async {
+    await launchUrl(url);
+  }
 }
