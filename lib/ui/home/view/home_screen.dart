@@ -19,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    widget._viewModel.category = categoryFilter;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               onSelected: (selected) {
                                 setState(() {
                                   categoryFilter = category;
+                                  widget._viewModel.category = category;
                                 });
                               },
                             );
@@ -63,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 FutureBuilder(
-                  future: widget._viewModel.getAllArticles(), 
+                  future: widget._viewModel.fetchArticles(), 
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

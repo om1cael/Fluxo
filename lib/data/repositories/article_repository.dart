@@ -12,4 +12,9 @@ class ArticleRepository {
     final response = await _apiService.getArticles();
     return response.map((json) => Article.fromJson(json)).toList();
   }
+
+  Future<List<Article>> getArticlesWithinCategory(String category) async {
+    final response = await _apiService.getArticlesWithinCategory(category);
+    return response.map((json) => Article.fromJson(json)).toList();
+  }
 }
