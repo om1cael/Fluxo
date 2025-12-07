@@ -37,123 +37,139 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16,),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemBuilder: (_, index) {
-                            final category = NewsCategories.values[index];
-
-                            return FilterChip(
-                              label: Text(category.frontEndName), 
-                              selected: categoryFilter == category,
-                              onSelected: (selected) {
-                                setState(() {
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemBuilder: (_, index) {
+                          final category = NewsCategories.values[index];
+          
+                          return FilterChip(
+                            label: Text(category.frontEndName), 
+                            selected: categoryFilter == category,
+                            onSelected: (selected) {
+                              setState(() {
+                                if(selected) {
                                   categoryFilter = category;
-                                  widget._viewModel.category = category;
-                                  
-                                  _fetchArticlesFuture = widget._viewModel.fetchArticles();
-                                });
-                              },
-                            );
-                          },
-                          separatorBuilder: (_, _) => SizedBox(width: 4,),
-                          itemCount: NewsCategories.values.length,
-                        ),
+                                } else {
+                                  categoryFilter = NewsCategories.general;
+                                }
+                                
+                                widget._viewModel.category = categoryFilter;
+                                _fetchArticlesFuture = widget._viewModel.fetchArticles();
+                              });
+                            },
+                          );
+                        },
+                        separatorBuilder: (_, _) => SizedBox(width: 4,),
+                        itemCount: NewsCategories.values.length,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                FutureBuilder(
-                  future: _fetchArticlesFuture, 
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator()
-                      );
-                    }
-                            
-                    if((snapshot.hasError || !snapshot.hasData) || snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text('Could not load the articles.'),
-                      );
-                    }
-                            
-                    return ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, item) {
-                        final article = snapshot.data![item];
-                    
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: .stretch,
-                              children: [
-                                Text(
-                                  article.title,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(height: 4,),
-                                Text(
-                                  article.publishedAt.toLocal().toString(),
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(height: 8,),
-                                Text(
-                                  article.description,
-                                  maxLines: 6,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(height: 8,),
-                                Row(
-                                  children: [
-                                    Icon(Icons.person),
-                                    SizedBox(width: 4,),
-                                    Flexible(
-                                      child: Text(
-                                        article.author, 
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          letterSpacing: .1,
-                                          fontSize: 10
-                                        ),
-                                      )
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (_, _) => SizedBox(height: 8,), 
-                      itemCount: snapshot.data!.length
+              ),
+              FutureBuilder(
+                future: _fetchArticlesFuture, 
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator()
                     );
                   }
-                ),
-              ],
-            ),
+                          
+                  if((snapshot.hasError || !snapshot.hasData)) {
+                    return Column(
+                      mainAxisAlignment: .center,
+                      children: [
+                        Icon(Icons.error, size: 64,),
+                        Text('Could not load the articles!'),
+                      ],
+                    );
+                  }
+                        
+                  if(snapshot.data!.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: .center,
+                      children: [
+                        Icon(Icons.air, size: 64,),
+                        Text('No articles were found!'),
+                      ],
+                    );
+                  }
+                          
+                  return ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, item) {
+                      final article = snapshot.data![item];
+                  
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: .stretch,
+                            children: [
+                              Text(
+                                article.title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(height: 4,),
+                              Text(
+                                article.publishedAt.toLocal().toString(),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              SizedBox(height: 8,),
+                              Text(
+                                article.description,
+                                maxLines: 6,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              SizedBox(height: 8,),
+                              Row(
+                                children: [
+                                  Icon(Icons.person),
+                                  SizedBox(width: 4,),
+                                  Flexible(
+                                    child: Text(
+                                      article.author, 
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        letterSpacing: .1,
+                                        fontSize: 10
+                                      ),
+                                    )
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, _) => SizedBox(height: 8,), 
+                    itemCount: snapshot.data!.length
+                  );
+                }
+              ),
+            ],
           ),
         ),
       ),
