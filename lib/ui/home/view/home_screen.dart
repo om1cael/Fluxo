@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluxo/domain/models/enum/news_categories.dart';
 import 'package:fluxo/ui/home/view_model/home_screen_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({
+  const HomeScreen({
     super.key,
     required HomeScreenViewModel viewModel,
   }) : _viewModel = viewModel;
 
   final HomeScreenViewModel _viewModel;
-
-  final categories = <String>[
-    "General",
-    "Technology",
-    "Science",
-    "Entertainment",
-    "Sports",
-    "Health",
-    "Business",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +35,16 @@ class HomeScreen extends StatelessWidget {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemBuilder: (_, item) {
+                          itemBuilder: (_, index) {
+                            final category = NewsCategories.values[index];
+
                             return FilterChip(
-                              label: Text(categories[item]), 
-                              onSelected: (value) {}
+                              label: Text(category.frontEndName), 
+                              onSelected: (value) {},
                             );
-                          }, 
-                          separatorBuilder: (_, _) => SizedBox(width: 8,), 
-                          itemCount: categories.length
+                          },
+                          separatorBuilder: (_, _) => SizedBox(width: 4,),
+                          itemCount: NewsCategories.values.length,
                         ),
                       ),
                     ],
