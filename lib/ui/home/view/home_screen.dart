@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Set<NewsCategories> categoryFilter = {};
+  NewsCategories categoryFilter = NewsCategories.general;
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             return FilterChip(
                               label: Text(category.frontEndName), 
-                              selected: categoryFilter.contains(category),
+                              selected: categoryFilter == category,
                               onSelected: (selected) {
                                 setState(() {
-                                  if(selected) {
-                                    categoryFilter.add(category);
-                                  } else {
-                                    categoryFilter.remove(category);
-                                  }
-
-                                  if(categoryFilter.isEmpty) {
-                                    categoryFilter.add(NewsCategories.general);
-                                  }
+                                  categoryFilter = category;
                                 });
                               },
                             );
