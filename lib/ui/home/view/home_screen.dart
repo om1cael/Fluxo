@@ -58,6 +58,13 @@ class HomeScreen extends ConsumerWidget {
               ),
               articles.when(
                 data: (articles) {
+                  if(articles.isEmpty) {
+                    return FeedbackWidget(
+                      icon: Icon(Icons.air, size: 64,),
+                      text: 'No articles were found!',
+                    );
+                  }
+
                   return ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
