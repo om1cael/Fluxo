@@ -1,5 +1,5 @@
 # Fluxo
-**Fluxo** is a mobile news application developed in **Flutter**. This project serves as a focused learning exercise to implement and validate the principles of the **Model-View-ViewModel (MVVM)** architectural pattern, **Clean Architecture** and testing.
+**Fluxo** is a mobile news application developed in **Flutter**. This project serves as a focused learning exercise to implement and validate the principles of the **Model-View-ViewModel (MVVM)** architectural pattern, **Clean Architecture**, **Riverpod** and **testing**.
 
 The application fetches real-time articles from the [**NewsAPI**](https://newsapi.org/) and allows users to filter content by category.
 
