@@ -45,7 +45,7 @@ class HomeScreen extends ConsumerWidget {
                             selected: currentCategory == category,
                             onSelected: (selected) {
                               ref.read(homeScreenViewModelNotifier.notifier)
-                                .updateCategory(category);
+                                .updateCategory(category, selected);
                             },
                           );
                         },

@@ -22,8 +22,14 @@ class HomeScreenViewModel extends AsyncNotifier<List<Article>> {
     return await articleRepository.getArticlesWithinCategory(category.name);
   }
 
-  void updateCategory(NewsCategories newCategory) {
-    ref.read(categoryStateNotifier.notifier)
-      .setCategory(newCategory);
+  void updateCategory(NewsCategories newCategory, bool didSelect) {
+    final categoryState = ref.read(categoryStateNotifier.notifier);
+
+    if(didSelect) {
+      categoryState.setCategory(newCategory);
+      return;
+    }
+
+    categoryState.setCategory(NewsCategories.general);
   }
 }
