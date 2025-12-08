@@ -16,7 +16,7 @@ class ArticleCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       splashColor: Colors.lightGreen,
-      onTap: () async => tapFunction(),
+      onTap: () => tapFunction(),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

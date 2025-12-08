@@ -4,6 +4,7 @@ import 'package:fluxo/domain/models/enum/news_categories.dart';
 import 'package:fluxo/ui/home/view/widgets/article_card.dart';
 import 'package:fluxo/ui/home/view/widgets/feedback_widget.dart';
 import 'package:fluxo/ui/home/view_model/home_screen_view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -111,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   
                       return ArticleCard(
                         article: article,
-                        tapFunction: () async => widget._viewModel.launchUrl(article.url),
+                        tapFunction: () async {
+                          await launchUrl(article.url);
+                        }
                       );
                     },
                     separatorBuilder: (_, _) => SizedBox(height: 8,), 
