@@ -44,7 +44,8 @@ class HomeScreen extends ConsumerWidget {
                             label: Text(category.frontEndName), 
                             selected: currentCategory == category,
                             onSelected: (selected) {
-                              // todo again
+                              ref.read(homeScreenViewModelNotifier.notifier)
+                                .updateCategory(category);
                             },
                           );
                         },

@@ -24,4 +24,9 @@ class HomeScreenViewModel extends AsyncNotifier<List<Article>> {
   Future<List<Article>> fetchArticles(NewsCategories category) async {
     return await _articleRepository.getArticlesWithinCategory(category.name);
   }
+
+  void updateCategory(NewsCategories newCategory) {
+    ref.read(categoryStateNotifier.notifier)
+      .setCategory(newCategory);
+  }
 }
