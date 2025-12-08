@@ -13,16 +13,13 @@ final homeScreenViewModelNotifier = AsyncNotifierProvider<HomeScreenViewModel, L
 class HomeScreenViewModel extends AsyncNotifier<List<Article>> {
   @override
   FutureOr<List<Article>> build() async {
-    _articleRepository = ref.read(articleRepositoryProvider);
     final category = ref.watch(categoryStateNotifier);
-
     return await fetchArticles(category);
   }
 
-  late ArticleRepository _articleRepository;
-
   Future<List<Article>> fetchArticles(NewsCategories category) async {
-    return await _articleRepository.getArticlesWithinCategory(category.name);
+    final articleRepository = ref.read(articleRepositoryProvider);
+    return await articleRepository.getArticlesWithinCategory(category.name);
   }
 
   void updateCategory(NewsCategories newCategory) {
