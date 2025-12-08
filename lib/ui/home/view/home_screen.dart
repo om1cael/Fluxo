@@ -58,16 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
           
                           return FilterChip(
                             label: Text(category.frontEndName), 
-                            selected: categoryFilter == category,
+                            selected: widget._viewModel.category == category,
                             onSelected: (selected) {
                               setState(() {
-                                if(selected) {
-                                  categoryFilter = category;
-                                } else {
-                                  categoryFilter = NewsCategories.general;
-                                }
-                                
-                                widget._viewModel.category = categoryFilter;
+                                widget._viewModel.updateCategory(category, selected);
                                 _fetchArticlesFuture = widget._viewModel.fetchArticles();
                               });
                             },

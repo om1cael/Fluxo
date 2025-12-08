@@ -10,11 +10,17 @@ class HomeScreenViewModel {
   final ArticleRepository _articleRepository;
 
   NewsCategories _category = NewsCategories.general;
-  set category(NewsCategories category) {
-    _category = category;
-  }
+  NewsCategories get category => _category;
 
   Future<List<Article>> fetchArticles() async {
     return await _articleRepository.getArticlesWithinCategory(_category.name);
+  }
+
+  void updateCategory(NewsCategories newCategory, bool isFilterSelected) {
+    if(isFilterSelected) {
+      _category = newCategory;
+    } else {
+      _category = NewsCategories.general;
+    }
   }
 }
