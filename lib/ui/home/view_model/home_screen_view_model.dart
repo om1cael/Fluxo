@@ -15,10 +15,6 @@ class HomeScreenViewModel {
   }
 
   Future<List<Article>> fetchArticles() async {
-    if(_category == NewsCategories.general) {
-      return await _articleRepository.getAllArticles();
-    }
-
     return await _articleRepository.getArticlesWithinCategory(_category.name);
   }
 }
