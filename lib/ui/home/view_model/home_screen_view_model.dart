@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxo/data/repositories/article_repository.dart';
 import 'package:fluxo/domain/models/article.dart';
 import 'package:fluxo/domain/models/enum/news_categories.dart';
-import 'package:fluxo/ui/home/view_model/category_state.dart';
+import 'package:fluxo/ui/home/state/category_state.dart';
 
 final homeScreenViewModelNotifier = AsyncNotifierProvider<HomeScreenViewModel, List<Article>>(
   HomeScreenViewModel.new

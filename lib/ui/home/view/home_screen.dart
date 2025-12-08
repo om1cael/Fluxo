@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxo/domain/models/enum/news_categories.dart';
 import 'package:fluxo/ui/home/view/widgets/article_card.dart';
 import 'package:fluxo/ui/home/view/widgets/feedback_widget.dart';
-import 'package:fluxo/ui/home/view_model/category_state.dart';
+import 'package:fluxo/ui/home/state/category_state.dart';
 import 'package:fluxo/ui/home/view_model/home_screen_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
