@@ -1,8 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:http/http.dart' as http;
+
+final apiServiceProvider = Provider<ApiService>((_) {
+  return ApiService();
+});
 
 class ApiService {
   String baseApiUrl = "https://newsapi.org/v2/top-headlines?country=us";
