@@ -1,26 +1,27 @@
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxo/data/repositories/article_repository.dart';
 import 'package:fluxo/domain/models/article.dart';
 import 'package:fluxo/domain/models/enum/news_categories.dart';
+import 'package:fluxo/ui/home/view_model/category_state.dart';
 
-class HomeScreenViewModel {
-  HomeScreenViewModel({
-    required ArticleRepository articleRepository,
-  }) : _articleRepository = articleRepository;
+final homeScreenViewModelNotifier = AsyncNotifierProvider<HomeScreenViewModel, List<Article>>(
+  HomeScreenViewModel.new
+);
 
-  final ArticleRepository _articleRepository;
+class HomeScreenViewModel extends AsyncNotifier<List<Article>> {
+  @override
+  FutureOr<List<Article>> build() async {
+    _articleRepository = ref.read(articleRepositoryProvider);
+    final category = ref.watch(categoryStateNotifier);
 
-  NewsCategories _category = NewsCategories.general;
-  NewsCategories get category => _category;
-
-  Future<List<Article>> fetchArticles() async {
-    return await _articleRepository.getArticlesWithinCategory(_category.name);
+    return await fetchArticles(category);
   }
 
-  void updateCategory(NewsCategories newCategory, bool isFilterSelected) {
-    if(isFilterSelected) {
-      _category = newCategory;
-    } else {
-      _category = NewsCategories.general;
-    }
+  late ArticleRepository _articleRepository;
+
+  Future<List<Article>> fetchArticles(NewsCategories category) async {
+    return await _articleRepository.getArticlesWithinCategory(category.name);
   }
 }
