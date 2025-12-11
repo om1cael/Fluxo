@@ -10,11 +10,17 @@ final apiServiceProvider = Provider<ApiService>((_) {
 });
 
 class ApiService {
+  ApiService({
+    http.Client? client,
+  }) : _client = client ?? http.Client();
+
+  final http.Client _client;
+
   String baseApiUrl = "https://newsapi.org/v2/top-headlines?country=us";
   final apiKey = dotenv.env['API_KEY'];
 
   Future<List<dynamic>> getArticlesWithinCategory(String category) async {
-    final response = await http.get(
+    final response = await _client.get(
       Uri.parse('$baseApiUrl&category=$category'),
       headers: {'Authorization': apiKey!},
     );
